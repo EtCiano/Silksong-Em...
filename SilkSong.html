@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://pbs.twimg.com/media/D_DV3ZXXYAAznP5.png">
+    <title>SilkSong em:</title>
+    <style>
+
+        @font-face {   
+font-family: 'Lemon Milk';      
+src: url('https://fonts.cdnfonts.com/css/lemonmilk');      
+font-weight: normal;     
+font-style: normal;
+
+}
+ body {      
+background-image: url(https://image.api.playstation.com/vulcan/ap/rnd/202508/2503/9396dc04cc0161e5a17f8775402f2c3afdcb5d8043a7ebf8.png);           
+background-size: cover;        
+display: flex;            
+flex-direction: column;      
+align-items: center;
+}
+ div {    
+display: flex;     
+font-family: 'Lucida Console', 'Courier New', Courier, monospace;          
+font-weight: 900;            
+text-shadow: 
+            -1px -1px 5px #000000,
+            1px 1px 5px #000000;
+            
+font-size: 50px;           
+color: #ffffff;        
+text-align: center;            
+margin: 30px;
+}
+</style>
+</head>
+<body>
+    <div id="relogio"></div>
+    <div id="restante">erro</div>
+    <script>
+
+        
+function atualizarRelogio() {
+
+const defsegundos = 1000;
+const defminutos = defsegundos * 60;
+const defhoras = defminutos * 60;  
+const defdias = defhoras * 24;
+    
+    
+const SilkSong = new 
+Date("2025-09-04T11:00:00").getTime();
+    
+const agora = new Date();
+const mes = (agora.getMonth() + 1).toString().padStart(2, '0');
+const ano = agora.getFullYear();
+const dia = agora.getDate().toString().padStart(2, '0');
+const horas = agora.getHours().toString().padStart(2, '0');
+const minutos = agora.getMinutes().toString().padStart(2, '0');
+const segundos = agora.getSeconds().toString().padStart(2, '0');
+const agoramilli = agora.getTime();
+console.log("agoramilli: " + agoramilli);
+console.log("silksong: " + SilkSong);
+
+    
+const dataFormatada = `${dia}/${mes}/${ano}`;
+    
+const horaFormatada = `${horas}:${minutos}:${segundos}`;
+    
+    
+const Relogio = document.getElementById('relogio')
+Relogio.textContent = 'hoje é dia ' + dataFormatada + ' - ' + horaFormatada;
+
+let diferenca = SilkSong - agoramilli;
+
+    
+let diasRestantes = Math.floor(diferenca / defdias);
+    diferenca %= defdias;
+
+    
+let horasRestantes = Math.floor(diferenca / defhoras).toString().padStart(2, '0');
+    diferenca %= defhoras;
+
+    
+let minutosRestantes = Math.floor(diferenca / defminutos).toString().padStart(2, '0');
+    diferenca %= defminutos;
+
+    
+let segundosRestantes = Math.floor(diferenca / defsegundos).toString().padStart(2, '0');
+    
+    
+const restante = document.getElementById('restante');
+    if (SilkSong < agoramilli) {
+        restante.textContent = 'SilkSong já foi lançado!';
+    } else { 
+        if (diasRestantes <= 0) {
+        restante.textContent = `Faltam ${horasRestantes}:${minutosRestantes}:${segundosRestantes} para SilkSong`;
+    } else {
+    restante.textContent = `Faltam ${diasRestantes} dias e ${horasRestantes}:${minutosRestantes}:${segundosRestantes} para SilkSong`;
+        }}}
+        atualizarRelogio();
+        setInterval(atualizarRelogio, 1000);
+    </script>
+</body>
+</html>
