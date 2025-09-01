@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100..800&display=swap" rel="stylesheet">
+    <title>Contador</title>
+    <style>
+
+        @font-face {   
+font-family: 'Lemon Milk';      
+src: url('https://fonts.cdnfonts.com/css/lemonmilk');      
+font-weight: normal;     
+font-style: normal;
+
+* {
+    margin: 0px;
+}
+}
+ body {
+display: flex;            
+flex-direction: column;      
+align-items: center;
+overflow: hidden;
+}
+ div {    
+display: flex;     
+font-family: "Martian Mono", monospace;
+text-transform: uppercase;
+font-size: 45px;           
+color: #000000;        
+text-align: center;     
+justify-content: center;
+margin: 10px;
+width: 81vw;
+}
+section {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 10px;
+    height: 90px;
+    width: 81vw;
+    border-radius: 20px;
+    background-color: rgb(85, 85, 85);
+}
+input {
+    font-size: 20px;
+    padding: 5px;
+    width: 150px;
+    text-align: left;
+    border-radius: 10px;
+    border: 0px;
+    height: 40px;
+    font-family: 'Lemon Milk', sans-serif;
+}
+.tutorial {
+    font-family: 'Lemon Milk', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    text-align: center;
+}
+.titulo {
+    font-family: 'Lemon Milk', sans-serif;
+    font-size: 70px;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 20px;
+    align-items: center;
+    height: 120px;
+    margin-top: 0px;
+    margin: 20px;
+    background-color: rgb(85, 85, 85);
+}
+#restante {
+    margin-bottom: 20px;
+}
+.relogio {
+    background-color: rgb(85, 85, 85);
+    color: #ffffff;
+    border-radius: 20px;
+    height: 500px;
+}
+#relogio {
+    position: relative;
+    color: rgb(255, 255, 255);
+}
+</style>
+</head>
+<body>
+    <header>
+        <div class="titulo">Contador de tempo</div>
+    </header>
+    <div id="restante"></div>
+    <div class="tutorial">coloque as informações sobre sua data ou horário (caso não tenha, não é necessário colocar as informações da data):</div>
+    <section>
+        <input type="number" id="dia" placeholder="Dia">
+        <input type="number" id="mes" placeholder="Mês">
+        <input type="number" id="ano" placeholder="Ano">
+        <input type="number" id="hora" placeholder="Hora">
+        <input type="number" id="minuto" placeholder="Minuto">
+        <input type="number" id="segundo" placeholder="segundo">
+    </section>  
+    <div class="relogio"><div id="relogio">erro</div></div>
+    <script>
+
+function atualizarRelogio() {
+    const agora = new Date();
+    const mes = (agora.getMonth() + 1).toString().padStart(2, '0');
+    const ano = agora.getFullYear();
+    const dia = agora.getDate().toString().padStart(2, '0');
+    const horas = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    const segundos = agora.getSeconds().toString().padStart(2, '0');
+    const agoramilli = agora.getTime();
+    const Relogio = document.getElementById('relogio')
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    const horaFormatada = `${horas}:${minutos}:${segundos}`;
+    Relogio.textContent = 'hoje é dia ' + dataFormatada + ' - ' + horaFormatada;
+    console.log("agoramilli: " + agoramilli);
+        
+    const defsegundos = 1000;
+    const defminutos = defsegundos * 60;
+    const defhoras = defminutos * 60;
+    const defdias = defhoras * 24;
+    const defmeses = defdias * 30; // aproximação, pois tem meses com 28, 29, 30 e 31 dias
+    const defanos = defmeses * 12;
+
+    let diaInput = document.getElementById('dia').value;
+    let mesInput = document.getElementById('mes').value;
+    let anoInput = document.getElementById('ano').value;
+    let horaInput = document.getElementById('hora').value;
+    let minutoInput = document.getElementById('minuto').value;
+    let segundoInput = document.getElementById('segundo').value;
+
+    if (!diaInput) diaInput = dia;
+    if (!mesInput) mesInput = mes;
+    if (!anoInput) anoInput = ano;
+    if (!horaInput) horaInput = horas;
+    if (!minutoInput) minutoInput = minutos;
+    if (!segundoInput) segundoInput = segundos;
+
+    diaInput = diaInput.toString().padStart(2, '0');
+    mesInput = mesInput.toString().padStart(2, '0');
+    horaInput = horaInput.toString().padStart(2, '0');
+    minutoInput = minutoInput.toString().padStart(2, '0');
+    segundoInput = segundoInput.toString().padStart(2, '0');
+
+    const data = new Date(`${anoInput}-${mesInput}-${diaInput}T${horaInput}:${minutoInput}:${segundoInput}`).getTime();
+    console.log("data: " + data);
+
+    let diferenca = data - agoramilli;
+    let anosRestantes = Math.floor(diferenca / defanos);
+        diferenca %= defanos;
+    let mesesRestantes = Math.floor(diferenca / defmeses);
+        diferenca %= defmeses;
+    let diasRestantes = Math.floor(diferenca / defdias);
+        diferenca %= defdias;
+    let horasRestantes = Math.floor(diferenca / defhoras).toString().padStart(2, '0');
+        diferenca %= defhoras;
+    let minutosRestantes = Math.floor(diferenca / defminutos).toString().padStart(2, '0');
+        diferenca %= defminutos;
+    let segundosRestantes = Math.floor(diferenca / defsegundos).toString().padStart(2, '0');
+
+
+    const restante = document.getElementById('restante');
+        if (data < agoramilli) {
+            restante.textContent = `Por favor, insira uma data válida (ou uma data futura)`;
+        } else { 
+            if (anosRestantes > 0)
+             {
+                restante.textContent = `${anosRestantes} anos, ${mesesRestantes} meses, ${diasRestantes} dias e ${horasRestantes}:${minutosRestantes}:${segundosRestantes}`;
+            }
+            if (anosRestantes == 0) {
+                restante.textContent = `${mesesRestantes} meses, ${diasRestantes} dias e ${horasRestantes}:${minutosRestantes}:${segundosRestantes}`;
+            }
+            if (mesesRestantes == 0 && anosRestantes == 0) {
+                restante.textContent = `${diasRestantes} dias e ${horasRestantes}:${minutosRestantes}:${segundosRestantes}`;
+            }
+            if (diasRestantes == 0 && mesesRestantes == 0 && anosRestantes == 0) {
+                restante.textContent = `${horasRestantes}:${minutosRestantes}:${segundosRestantes}`;
+            }
+            if (horasRestantes == 0 && diasRestantes == 0 && mesesRestantes == 0 && anosRestantes == 0) {
+                restante.textContent = `${minutosRestantes}:${segundosRestantes}`;
+            }
+            if (minutosRestantes == 0 && horasRestantes == 0 && diasRestantes == 0 && mesesRestantes == 0 && anosRestantes == 0) {
+                restante.textContent = `${segundosRestantes} segundos`;
+            }
+        }
+    }
+atualizarRelogio();
+setInterval(atualizarRelogio, 1000);
+</script>
+</body>
+</html>
