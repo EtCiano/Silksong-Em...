@@ -111,7 +111,7 @@ const restante = document.getElementById('restante');
         if (diasRestantes <= 0) {
         restante.textContent = `Faltam ${horasRestantes}:${minutosRestantes}:${segundosRestantes} para SilkSong`;
     } else {
-    restante.textContent = `Faltam ${diasRestantes} dias e ${horasRestantes}:${minutosRestantes}:${segundosRestantes} para SilkSong`;
+    restante.textContent = `Faltam ${diasRestantes} dia(s) e ${horasRestantes}:${minutosRestantes}:${segundosRestantes} para SilkSong`;
         }}}
         atualizarRelogio();
         setInterval(atualizarRelogio, 1000);
@@ -120,3 +120,4 @@ const restante = document.getElementById('restante');
     </script>
 </body>
 </html>
+
